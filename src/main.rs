@@ -8,7 +8,7 @@ mod snapshot;
 mod util;
 
 fn main() {
-    let matches = Command::new("multipass-backup")
+    let matches = Command::new("multipass-images")
         .version("0.2.0")
         .author(util::string_to_sstr(format!("{}", "Agata Ordano - aordano@protonmail.com".bright_cyan())))
         .about("Utility that allows the user to create and backup snapshots for Canonical's Multipass virtual machines.")
@@ -41,6 +41,7 @@ fn main() {
                 .alias("new")
                 .short('n')
                 .long("create")
+                .takes_value(true)
                 .multiple_values(true)
                 .value_name("MACHINE")
                 .help("Creates a snapshot for the given machines.")
@@ -51,36 +52,30 @@ fn main() {
                 .alias("apply")
                 .short('c')
                 .long("commit")
+                .takes_value(true)
                 .multiple_values(true)
                 .value_name("MACHINE")
                 .conflicts_with("create")
                 .help("Commits snapshots for the given machines.")
             )
             .arg(
-                Arg::new("all")
-                .short('a')
-                .long("all")
+                Arg::new("commit-all")
+                .long("commit-all")
                 .takes_value(false)
-                .requires_ifs(&[
-                    ("", "commit"),
-                    ("", "create")
-                ])
-                //.requires("operations")
-                .help("Applies the selected operation for all machines.")
+                .conflicts_with_all(&["commit", "create"])
+                .help("Commits snapshots for all machines.")
+            )
+            .arg(
+                Arg::new("create-all")
+                .long("create-all")
+                .takes_value(false)
+                .conflicts_with_all(&["commit", "create"])
+                .help("Creates a snapshot for all machines.")
             )
         )
         .subcommand(
             Command::new("backup")
-                .alias("settings")
-            .about("Manages the configuration file.")
-            .long_about(util::string_to_sstr(
-                format!("{}\n {} {} {}", 
-                    "This command allows you to generate a skeleton for the config file, or test validity of an existing one.".yellow(), 
-                    "By default the configuration file will be generated and read from ", 
-                    "$HOME".bright_purple(),
-                    concat!(", but you can select an alternative path if desired.")
-                )
-            ))
+            .about("Backs up Multipass Image files to a selected directory.")
             .arg_required_else_help(true)
             .arg(
                 Arg::new("images")

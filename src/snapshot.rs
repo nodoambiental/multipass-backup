@@ -3,16 +3,16 @@ use anyhow::Error;
 
 pub fn run(cli: &clap::ArgMatches) -> Result<(), Error> {
     let create = cli.contains_id("create");
-    let generate = cli.contains_id("generate");
+    let commit = cli.contains_id("commit");
 
     if create {
         todo!();
         //return create();
     }
 
-    if generate {
+    if commit {
         todo!();
-        //return generate();
+        //return commit();
     }
 
     panic!("No valid argument provided to the config subcommand.")
@@ -22,6 +22,6 @@ pub fn create() -> Result<(), Error> {
     todo!();
 }
 
-pub fn generate() -> Result<(), Error> {
+pub fn commit() -> Result<(), Error> {
     todo!();
 }
