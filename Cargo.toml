@@ -2,6 +2,12 @@
 name = "multipass-images"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+description = "Utility to easily create and backup snapshots for Canonical's Multipass virtual machines."
+homepage = "https://github.com/nodoambiental/multipass-backup"
+repository = "https://github.com/nodoambiental/multipass-backup"
+documentantion = "https://github.com/nodoambiental/multipass-backup"
+readme = "README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -10,3 +16,8 @@ anyhow = "1.0.65"
 chrono = "0.4.22"
 clap = "3.2.22"
 colored = "2.0.0"
+
+[[bin]]
+name = "multipass-images"
+test = false
+bench = false
