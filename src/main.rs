@@ -11,7 +11,7 @@ fn main() {
     let matches = Command::new("multipass-images")
         .version("0.2.0")
         .author(util::string_to_sstr(format!("{}", "Agata Ordano - aordano@protonmail.com".bright_cyan())))
-        .about("Utility that allows the user to create and backup snapshots for Canonical's Multipass virtual machines.")
+        .about("Utility to easily create and backup snapshots for Canonical's Multipass virtual machines.")
         .long_about(concat! ("This utility uses QEMU to create and manage snapshots for Multipass image files, and Rsync to backup/update to a given path.\n\n"))
         .subcommand_required(true)
         .arg_required_else_help(true)
