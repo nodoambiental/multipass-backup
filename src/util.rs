@@ -1,5 +1,8 @@
+use anyhow::Error;
 use chrono;
 use colored::*;
+use std::any::Any;
+use std::path::PathBuf;
 use std::process;
 
 // From https://stackoverflow.com/a/52367953/16134348
@@ -68,4 +71,39 @@ pub fn stdout(selector: &str, message: &str) {
             );
         }
     }
+}
+
+pub fn collect_values<T: Any + Clone + Send + Sync>(
+    matches: &clap::ArgMatches,
+    argument: &str,
+) -> Result<Vec<T>, Error> {
+    let is_argument = matches.contains_id(argument);
+
+    let values: Vec<T> = match is_argument {
+        true => match matches.try_get_many::<T>(argument)? {
+            None => Vec::new(),
+            Some(values) => {
+                let mut list = Vec::new();
+                for value in values {
+                    list.push(value.clone())
+                }
+                list
+            }
+        },
+        false => Vec::new(),
+    };
+    Ok(values)
+}
+
+pub fn collect_image_paths(
+    image_names: Vec<String>,
+    images_source: PathBuf,
+    all: bool,
+    base: bool,
+) -> Result<Vec<PathBuf>, Error> {
+    todo!()
+}
+
+pub fn base_image_exists(image_paths: Vec<PathBuf>) -> Result<bool, Error> {
+    todo!()
 }
